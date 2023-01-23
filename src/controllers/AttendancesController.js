@@ -3,7 +3,8 @@ const knex = require("../database/knex");
 class AttendancesController {
 
   async create(request, response) {
-    const { user_id, service_id } = request.body
+    const { service_id } = request.body
+    const user_id = request.user.id
 
     const attendance = await knex('attendances').insert({
       user_id,

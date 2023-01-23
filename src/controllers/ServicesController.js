@@ -7,6 +7,13 @@ class ServicesController {
 
   async create(request, response) {
     const { name, description, price, duration, comission } = request.body;
+    const user_id = request.user.id
+
+    const user = await knex('users').where({ id: user_id }).first()
+
+    if (!user.isProfessional) {
+      return response.status(401).json('Você não é autorizado para criar um serviço.')
+    }
 
     await knex("services").insert({
       name,
