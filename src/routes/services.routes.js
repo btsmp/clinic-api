@@ -1,12 +1,14 @@
-const { Router } = require("express")
-const ServicesController = require("../controllers/ServicesController")
+const { Router } = require("express");
+const ServicesController = require("../controllers/ServicesController");
+const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
 
-const servicesController = new ServicesController()
+const servicesController = new ServicesController();
 
-const servicesRouter = Router()
+const servicesRouter = Router();
 
-servicesRouter.post("/", servicesController.create)
-servicesRouter.get("/", servicesController.index)
-servicesRouter.get("/:id", servicesController.show)
+servicesRouter.use(ensureAuthenticated);
+servicesRouter.post("/", servicesController.create);
+servicesRouter.get("/", servicesController.index);
+servicesRouter.get("/:id", servicesController.show);
 
-module.exports = servicesRouter 
+module.exports = servicesRouter;
