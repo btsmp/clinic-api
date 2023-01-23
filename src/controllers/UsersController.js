@@ -2,16 +2,9 @@ const { hash } = require("bcryptjs");
 const knex = require("../database/knex");
 
 class UsersController {
-  /* 
-  Create - POST para poder criar um registro
-  Update - PUT para atualizar um registro
-  Index - GET para listar varios registros
-  Show - GET para exibir um registro especifico
-  Delete - DELETE para remover um registro
-  */
-
+  // Create - POST para poder criar um registro
   async create(request, response) {
-    const { name, password, email } = request.body;
+    const { name, password, email, isProfessional } = request.body;
 
     const userExists = await knex("users").where({ email }).first();
 
@@ -23,7 +16,8 @@ class UsersController {
     await knex("users").insert({
       email,
       name,
-      password: hashedPassword
+      password: hashedPassword,
+      isProfessional
     });
 
     return response.status(201).json("Usuário criado com sucesso!");
